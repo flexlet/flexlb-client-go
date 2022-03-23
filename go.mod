@@ -1,5 +1,4 @@
 module gitee.com/flexlb/flexlb-client-go
-version 0.1.1
 
 go 1.17
 
