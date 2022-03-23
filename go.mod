@@ -1,4 +1,4 @@
-module flexlb
+module flexlb-client-go
 
 go 1.17
 
