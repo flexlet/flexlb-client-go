@@ -2,9 +2,9 @@ package client
 
 import (
 	"encoding/json"
-	"flexlb/client/instance"
-	"flexlb/client/service"
-	"flexlb/models"
+	"gitee.com/flexlb/flexlb-client-go/client/instance"
+	"gitee.com/flexlb/flexlb-client-go/client/service"
+	"gitee.com/flexlb/flexlb-client-go/models"
 	"io/ioutil"
 
 	httptransport "github.com/go-openapi/runtime/client"

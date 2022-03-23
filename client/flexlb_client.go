@@ -10,8 +10,8 @@ import (
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 
-	"flexlb/client/instance"
-	"flexlb/client/service"
+	"gitee.com/flexlb/flexlb-client-go/client/instance"
+	"gitee.com/flexlb/flexlb-client-go/client/service"
 )
 
 // Default flexlb HTTP client.

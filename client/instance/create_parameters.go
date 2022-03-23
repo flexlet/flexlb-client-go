@@ -15,7 +15,7 @@ import (
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 
-	"flexlb/models"
+	"gitee.com/flexlb/flexlb-client-go/models"
 )
 
 // NewCreateParams creates a new CreateParams object,

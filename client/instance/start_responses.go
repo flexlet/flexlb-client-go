@@ -16,7 +16,7 @@ import (
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 
-	"flexlb/models"
+	"gitee.com/flexlb/flexlb-client-go/models"
 )
 
 // StartReader is a Reader for the Start structure.

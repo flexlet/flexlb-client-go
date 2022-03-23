@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"flexlb/client"
+	"gitee.com/flexlb/flexlb-client-go/client"
 	"fmt"
 
 	"gopkg.in/yaml.v2"

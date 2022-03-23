@@ -16,7 +16,7 @@ import (
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 
-	"flexlb/models"
+	"gitee.com/flexlb/flexlb-client-go/models"
 )
 
 // GetReader is a Reader for the Get structure.

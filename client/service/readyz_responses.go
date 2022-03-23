@@ -12,7 +12,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
 
-	"flexlb/models"
+	"gitee.com/flexlb/flexlb-client-go/models"
 )
 
 // ReadyzReader is a Reader for the Readyz structure.
