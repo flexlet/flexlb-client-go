@@ -71,7 +71,7 @@ func main() {
 	}
 
 	if status {
-		if resp, err := client.GetReadyStatus(lb); err != nil {
+		if resp, err := lb.GetReadyStatus(); err != nil {
 			panic(err)
 		} else {
 			printAsYaml(resp)
@@ -79,7 +79,7 @@ func main() {
 	}
 
 	if list {
-		if resp, err := client.ListInstances(lb, &name); err != nil {
+		if resp, err := lb.ListInstances(&name); err != nil {
 			panic(err)
 		} else {
 			printAsYaml(resp)
@@ -87,7 +87,7 @@ func main() {
 	}
 
 	if get != "" {
-		if resp, err := client.GetInstance(lb, get); err != nil {
+		if resp, err := lb.GetInstance(get); err != nil {
 			panic(err)
 		} else {
 			printAsYaml(resp)
@@ -95,7 +95,7 @@ func main() {
 	}
 
 	if resume != "" {
-		if resp, err := client.StartInstance(lb, resume); err != nil {
+		if resp, err := lb.StartInstance(resume); err != nil {
 			panic(err)
 		} else {
 			printAsYaml(resp)
@@ -103,7 +103,7 @@ func main() {
 	}
 
 	if pause != "" {
-		if resp, err := client.StopInstance(lb, pause); err != nil {
+		if resp, err := lb.StopInstance(pause); err != nil {
 			panic(err)
 		} else {
 			printAsYaml(resp)
@@ -111,7 +111,7 @@ func main() {
 	}
 
 	if delete != "" {
-		if err := client.DeleteInstance(lb, delete); err != nil {
+		if err := lb.DeleteInstance(delete); err != nil {
 			panic(err)
 		} else {
 			fmt.Println("ok")
@@ -119,7 +119,7 @@ func main() {
 	}
 
 	if create {
-		if resp, err := client.CreateInstance(lb, config); err != nil {
+		if resp, err := lb.CreateInstance(config); err != nil {
 			panic(err)
 		} else {
 			printAsYaml(resp)
@@ -127,7 +127,7 @@ func main() {
 	}
 
 	if modify != "" {
-		if resp, err := client.ModifyInstance(lb, modify, config); err != nil {
+		if resp, err := lb.ModifyInstance(modify, config); err != nil {
 			panic(err)
 		} else {
 			printAsYaml(resp)

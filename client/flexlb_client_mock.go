@@ -26,7 +26,7 @@ func NewTLSClient(host string, ca string, cert string, key string, insecure bool
 	return New(transport, formats), nil
 }
 
-func GetReadyStatus(lb *Flexlb) (*models.ReadyStatus, error) {
+func(lb *Flexlb) GetReadyStatus() (*models.ReadyStatus, error) {
 	params := service.NewReadyzParams()
 	if resp, err := lb.Service.Readyz(params); err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func GetReadyStatus(lb *Flexlb) (*models.ReadyStatus, error) {
 	}
 }
 
-func ListInstances(lb *Flexlb, name *string) ([]*models.Instance, error) {
+func(lb *Flexlb) ListInstances(name *string) ([]*models.Instance, error) {
 	params := instance.NewListParams()
 	params.Name = name
 	if resp, err := lb.Instance.List(params); err != nil {
@@ -45,7 +45,7 @@ func ListInstances(lb *Flexlb, name *string) ([]*models.Instance, error) {
 	}
 }
 
-func GetInstance(lb *Flexlb, name string) (*models.Instance, error) {
+func(lb *Flexlb) GetInstance(name string) (*models.Instance, error) {
 	params := instance.NewGetParams()
 	params.Name = name
 	if resp, err := lb.Instance.Get(params); err != nil {
@@ -55,7 +55,7 @@ func GetInstance(lb *Flexlb, name string) (*models.Instance, error) {
 	}
 }
 
-func StartInstance(lb *Flexlb, name string) (*models.Instance, error) {
+func(lb *Flexlb) StartInstance(name string) (*models.Instance, error) {
 	params := instance.NewStartParams()
 	params.Name = name
 	if resp, err := lb.Instance.Start(params); err != nil {
@@ -65,7 +65,7 @@ func StartInstance(lb *Flexlb, name string) (*models.Instance, error) {
 	}
 }
 
-func StopInstance(lb *Flexlb, name string) (*models.Instance, error) {
+func(lb *Flexlb) StopInstance(name string) (*models.Instance, error) {
 	params := instance.NewStopParams()
 	params.Name = name
 	if resp, err := lb.Instance.Stop(params); err != nil {
@@ -75,7 +75,7 @@ func StopInstance(lb *Flexlb, name string) (*models.Instance, error) {
 	}
 }
 
-func DeleteInstance(lb *Flexlb, name string) error {
+func(lb *Flexlb) DeleteInstance(name string) error {
 	params := instance.NewDeleteParams()
 	params.Name = name
 	if _, err := lb.Instance.Delete(params); err != nil {
@@ -85,7 +85,7 @@ func DeleteInstance(lb *Flexlb, name string) error {
 	}
 }
 
-func CreateInstance(lb *Flexlb, file string) (*models.Instance, error) {
+func(lb *Flexlb) CreateInstance(file string) (*models.Instance, error) {
 	params := instance.NewCreateParams()
 	if raw, err := ioutil.ReadFile(file); err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ func CreateInstance(lb *Flexlb, file string) (*models.Instance, error) {
 	}
 }
 
-func ModifyInstance(lb *Flexlb, name string, file string) (*models.Instance, error) {
+func(lb *Flexlb) ModifyInstance(name string, file string) (*models.Instance, error) {
 	params := instance.NewModifyParams()
 	params.Name = name
 	if raw, err := ioutil.ReadFile(file); err != nil {
