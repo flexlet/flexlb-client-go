@@ -1,37 +1,90 @@
-# flexlb-go-client
+# FlexLB go client
 
-#### 介绍
-Go client for flexlb
+Flexible load balancer go client to control keepalived and haproxy
 
-#### 软件架构
-软件架构说明
+## Build
 
+### Generate code
 
-#### 安装教程
+```sh
+FLEXLB_API=../flexlb-api
+swagger generate client -f ${FLEXLB_API}/swagger/flexlb-api-spec.yaml
+```
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+### Build binary
 
-#### 使用说明
+#### For Linux
+```sh
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /tmp/flexlb-cli cmd/flexlb-client/main.go
+```
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## Run
 
-#### 参与贡献
+### Generage self-signed certificate
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+#### Generate CA key and CA certs
 
+See {FLEXLB_API}/README.md
 
-#### 特技
+#### Generate server key and certs
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+See {FLEXLB_API}/README.md
+
+#### Generate client key and certs
+
+```sh
+cd /etc/flexlb/certs
+DNS_NAME="example.com"
+openssl genrsa -out client.key 2048
+openssl req -new -out client.csr -key client.key -subj "/CN=${DNS_NAME}"
+openssl x509 -req -in client.csr -out client.crt -signkey client.key -CA ca.crt -CAkey ca.key -CAcreateserial -days 3650
+```
+
+### Run FlexLB API server
+
+See {FLEXLB_API}/README.md
+
+### Run FlexLB Client
+
+#### Show ready status
+```sh
+./flexlb-cli -status
+```
+
+## Test
+
+#### Create instance
+```sh
+TEMPLATE="test/instance_template.json"
+NAME="inst1"
+VIP="192.168.2.1"
+sed "s/<NAME>/${NAME}/g; s/<VIP>/${VIP}/g" ${TEMPLATE} > /tmp/inst1.json
+./flexlb-cli -create -config /tmp/inst1.json
+```
+
+#### List instance
+```sh
+./flexlb-cli -list
+./flexlb-cli -list -name inst1
+```
+
+#### Modify instance
+```sh
+# edit /tmp/inst1.json
+./flexlb-cli -modify inst1 -config /tmp/inst1.json
+```
+
+#### Get instance
+```sh
+./flexlb-cli -get inst1
+```
+
+#### Stop/Start instance
+```sh
+./flexlb-cli -stop inst1
+./flexlb-cli -start inst1
+```
+#### Delete instance
+```sh
+./flexlb-cli -delete inst1
+```
