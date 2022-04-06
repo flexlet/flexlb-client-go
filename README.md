@@ -4,17 +4,17 @@ Flexible load balancer go client to control keepalived and haproxy
 
 ## Build
 
-### Generate code
+### Clone code
 
 ```sh
-FLEXLB_API=../flexlb-api
-swagger generate client -f ${FLEXLB_API}/swagger/flexlb-api-spec.yaml
+git clone https://gitee.com/flexlb/flexlb-client-go.git
 ```
 
 ### Build binary
 
 #### For Linux
 ```sh
+cd flexlb-client-go
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /tmp/flexlb-cli cmd/flexlb-client/main.go
 ```
 
@@ -32,13 +32,7 @@ See {FLEXLB_API}/README.md
 
 #### Generate client key and certs
 
-```sh
-cd /etc/flexlb/certs
-DNS_NAME="example.com"
-openssl genrsa -out client.key 2048
-openssl req -new -out client.csr -key client.key -subj "/CN=${DNS_NAME}"
-openssl x509 -req -in client.csr -out client.crt -signkey client.key -CA ca.crt -CAkey ca.key -CAcreateserial -days 3650
-```
+See {FLEXLB_API}/README.md
 
 ### Run FlexLB API server
 
@@ -59,7 +53,7 @@ TEMPLATE="test/instance_template.json"
 NAME="inst1"
 VIP="192.168.2.1"
 sed "s/<NAME>/${NAME}/g; s/<VIP>/${VIP}/g" ${TEMPLATE} > /tmp/inst1.json
-./flexlb-cli -create -config /tmp/inst1.json
+./flexlb-cli -create /tmp/inst1.json
 ```
 
 #### List instance
@@ -71,7 +65,7 @@ sed "s/<NAME>/${NAME}/g; s/<VIP>/${VIP}/g" ${TEMPLATE} > /tmp/inst1.json
 #### Modify instance
 ```sh
 # edit /tmp/inst1.json
-./flexlb-cli -modify inst1 -config /tmp/inst1.json
+./flexlb-cli -modify /tmp/inst1.json
 ```
 
 #### Get instance

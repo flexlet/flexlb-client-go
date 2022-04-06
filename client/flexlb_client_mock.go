@@ -2,10 +2,11 @@ package client
 
 import (
 	"encoding/json"
+	"io/ioutil"
+
 	"gitee.com/flexlb/flexlb-client-go/client/instance"
 	"gitee.com/flexlb/flexlb-client-go/client/service"
 	"gitee.com/flexlb/flexlb-client-go/models"
-	"io/ioutil"
 
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
@@ -26,7 +27,7 @@ func NewTLSClient(host string, ca string, cert string, key string, insecure bool
 	return New(transport, formats), nil
 }
 
-func(lb *Flexlb) GetReadyStatus() (*models.ReadyStatus, error) {
+func (lb *Flexlb) GetReadyStatus() (models.ReadyStatus, error) {
 	params := service.NewReadyzParams()
 	if resp, err := lb.Service.Readyz(params); err != nil {
 		return nil, err
@@ -35,7 +36,7 @@ func(lb *Flexlb) GetReadyStatus() (*models.ReadyStatus, error) {
 	}
 }
 
-func(lb *Flexlb) ListInstances(name *string) ([]*models.Instance, error) {
+func (lb *Flexlb) ListInstances(name *string) ([]*models.Instance, error) {
 	params := instance.NewListParams()
 	params.Name = name
 	if resp, err := lb.Instance.List(params); err != nil {
@@ -45,7 +46,7 @@ func(lb *Flexlb) ListInstances(name *string) ([]*models.Instance, error) {
 	}
 }
 
-func(lb *Flexlb) GetInstance(name string) (*models.Instance, error) {
+func (lb *Flexlb) GetInstance(name string) (*models.Instance, error) {
 	params := instance.NewGetParams()
 	params.Name = name
 	if resp, err := lb.Instance.Get(params); err != nil {
@@ -55,7 +56,7 @@ func(lb *Flexlb) GetInstance(name string) (*models.Instance, error) {
 	}
 }
 
-func(lb *Flexlb) StartInstance(name string) (*models.Instance, error) {
+func (lb *Flexlb) StartInstance(name string) (*models.Instance, error) {
 	params := instance.NewStartParams()
 	params.Name = name
 	if resp, err := lb.Instance.Start(params); err != nil {
@@ -65,7 +66,7 @@ func(lb *Flexlb) StartInstance(name string) (*models.Instance, error) {
 	}
 }
 
-func(lb *Flexlb) StopInstance(name string) (*models.Instance, error) {
+func (lb *Flexlb) StopInstance(name string) (*models.Instance, error) {
 	params := instance.NewStopParams()
 	params.Name = name
 	if resp, err := lb.Instance.Stop(params); err != nil {
@@ -75,7 +76,7 @@ func(lb *Flexlb) StopInstance(name string) (*models.Instance, error) {
 	}
 }
 
-func(lb *Flexlb) DeleteInstance(name string) error {
+func (lb *Flexlb) DeleteInstance(name string) error {
 	params := instance.NewDeleteParams()
 	params.Name = name
 	if _, err := lb.Instance.Delete(params); err != nil {
@@ -85,19 +86,9 @@ func(lb *Flexlb) DeleteInstance(name string) error {
 	}
 }
 
-func(lb *Flexlb) CreateInstance(file string) (*models.Instance, error) {
+func (lb *Flexlb) CreateInstance(cfg *models.InstanceConfig) (*models.Instance, error) {
 	params := instance.NewCreateParams()
-	if raw, err := ioutil.ReadFile(file); err != nil {
-		return nil, err
-	} else {
-		var cfg models.InstanceConfig
-		if err := json.Unmarshal(raw, &cfg); err != nil {
-			return nil, err
-		} else {
-			params.Config = &cfg
-		}
-
-	}
+	params.Config = cfg
 	if resp, err := lb.Instance.Create(params); err != nil {
 		return nil, err
 	} else {
@@ -105,9 +96,17 @@ func(lb *Flexlb) CreateInstance(file string) (*models.Instance, error) {
 	}
 }
 
-func(lb *Flexlb) ModifyInstance(name string, file string) (*models.Instance, error) {
+func (lb *Flexlb) ModifyInstance(cfg *models.InstanceConfig) (*models.Instance, error) {
 	params := instance.NewModifyParams()
-	params.Name = name
+	params.Config = cfg
+	if resp, err := lb.Instance.Modify(params); err != nil {
+		return nil, err
+	} else {
+		return resp.Payload, nil
+	}
+}
+
+func LoadConfig(file string) (*models.InstanceConfig, error) {
 	if raw, err := ioutil.ReadFile(file); err != nil {
 		return nil, err
 	} else {
@@ -115,12 +114,7 @@ func(lb *Flexlb) ModifyInstance(name string, file string) (*models.Instance, err
 		if err := json.Unmarshal(raw, &cfg); err != nil {
 			return nil, err
 		} else {
-			params.Config = &cfg
+			return &cfg, nil
 		}
-	}
-	if resp, err := lb.Instance.Modify(params); err != nil {
-		return nil, err
-	} else {
-		return resp.Payload, nil
 	}
 }

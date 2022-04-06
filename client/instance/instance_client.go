@@ -210,7 +210,7 @@ func (a *Client) Modify(params *ModifyParams, opts ...ClientOption) (*ModifyOK, 
 	op := &runtime.ClientOperation{
 		ID:                 "modify",
 		Method:             "PUT",
-		PathPattern:        "/instances/{name}",
+		PathPattern:        "/instances",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},

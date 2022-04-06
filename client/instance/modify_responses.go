@@ -82,7 +82,7 @@ type ModifyOK struct {
 }
 
 func (o *ModifyOK) Error() string {
-	return fmt.Sprintf("[PUT /instances/{name}][%d] modifyOK  %+v", 200, o.Payload)
+	return fmt.Sprintf("[PUT /instances][%d] modifyOK  %+v", 200, o.Payload)
 }
 func (o *ModifyOK) GetPayload() *models.Instance {
 	return o.Payload
@@ -114,7 +114,7 @@ type ModifyBadRequest struct {
 }
 
 func (o *ModifyBadRequest) Error() string {
-	return fmt.Sprintf("[PUT /instances/{name}][%d] modifyBadRequest  %+v", 400, o.Payload)
+	return fmt.Sprintf("[PUT /instances][%d] modifyBadRequest  %+v", 400, o.Payload)
 }
 func (o *ModifyBadRequest) GetPayload() *ModifyBadRequestBody {
 	return o.Payload
@@ -146,7 +146,7 @@ type ModifyUnauthorized struct {
 }
 
 func (o *ModifyUnauthorized) Error() string {
-	return fmt.Sprintf("[PUT /instances/{name}][%d] modifyUnauthorized  %+v", 401, o.Payload)
+	return fmt.Sprintf("[PUT /instances][%d] modifyUnauthorized  %+v", 401, o.Payload)
 }
 func (o *ModifyUnauthorized) GetPayload() interface{} {
 	return o.Payload
@@ -176,7 +176,7 @@ type ModifyForbidden struct {
 }
 
 func (o *ModifyForbidden) Error() string {
-	return fmt.Sprintf("[PUT /instances/{name}][%d] modifyForbidden  %+v", 403, o.Payload)
+	return fmt.Sprintf("[PUT /instances][%d] modifyForbidden  %+v", 403, o.Payload)
 }
 func (o *ModifyForbidden) GetPayload() *ModifyForbiddenBody {
 	return o.Payload
@@ -208,7 +208,7 @@ type ModifyNotFound struct {
 }
 
 func (o *ModifyNotFound) Error() string {
-	return fmt.Sprintf("[PUT /instances/{name}][%d] modifyNotFound  %+v", 404, o.Payload)
+	return fmt.Sprintf("[PUT /instances][%d] modifyNotFound  %+v", 404, o.Payload)
 }
 func (o *ModifyNotFound) GetPayload() *ModifyNotFoundBody {
 	return o.Payload
@@ -240,7 +240,7 @@ type ModifyInternalServerError struct {
 }
 
 func (o *ModifyInternalServerError) Error() string {
-	return fmt.Sprintf("[PUT /instances/{name}][%d] modifyInternalServerError  %+v", 500, o.Payload)
+	return fmt.Sprintf("[PUT /instances][%d] modifyInternalServerError  %+v", 500, o.Payload)
 }
 func (o *ModifyInternalServerError) GetPayload() interface{} {
 	return o.Payload

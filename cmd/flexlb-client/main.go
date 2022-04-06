@@ -1,11 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
-	"gitee.com/flexlb/flexlb-client-go/client"
 	"fmt"
 
-	"gopkg.in/yaml.v2"
+	"gitee.com/flexlb/flexlb-client-go/client"
 )
 
 func main() {
@@ -16,9 +16,8 @@ func main() {
 		key      string
 		insecure bool
 		status   bool
-		create   bool
+		create   string
 		modify   string
-		config   string
 		list     bool
 		name     string
 		get      string
@@ -53,14 +52,11 @@ func main() {
 	flag.StringVar(&delete, "delete", "", "Stop instance <name>")
 	flag.StringVar(&delete, "d", "", "Stop instance <name>")
 
-	flag.BoolVar(&create, "create", false, "Create instance -config <config_file>")
-	flag.BoolVar(&create, "c", false, "Create instance -config <config_file>")
+	flag.StringVar(&create, "create", "", "Create instance <config_file>")
+	flag.StringVar(&create, "c", "", "Create instance <config_file>")
 
-	flag.StringVar(&modify, "modify", "", "Modify instance <name>")
-	flag.StringVar(&modify, "m", "", "Modify instance <name>")
-
-	flag.StringVar(&config, "config", "", "Instance config file (create, modify)")
-	flag.StringVar(&config, "f", "", "Instance config file (create, modify)")
+	flag.StringVar(&modify, "modify", "", "Modify instance <config_file>")
+	flag.StringVar(&modify, "m", "", "Modify instance <config_file>")
 
 	flag.Parse()
 
@@ -74,7 +70,7 @@ func main() {
 		if resp, err := lb.GetReadyStatus(); err != nil {
 			panic(err)
 		} else {
-			printAsYaml(resp)
+			printAsJson(resp)
 		}
 	}
 
@@ -82,7 +78,7 @@ func main() {
 		if resp, err := lb.ListInstances(&name); err != nil {
 			panic(err)
 		} else {
-			printAsYaml(resp)
+			printAsJson(resp)
 		}
 	}
 
@@ -90,7 +86,7 @@ func main() {
 		if resp, err := lb.GetInstance(get); err != nil {
 			panic(err)
 		} else {
-			printAsYaml(resp)
+			printAsJson(resp)
 		}
 	}
 
@@ -98,7 +94,7 @@ func main() {
 		if resp, err := lb.StartInstance(resume); err != nil {
 			panic(err)
 		} else {
-			printAsYaml(resp)
+			printAsJson(resp)
 		}
 	}
 
@@ -106,7 +102,7 @@ func main() {
 		if resp, err := lb.StopInstance(pause); err != nil {
 			panic(err)
 		} else {
-			printAsYaml(resp)
+			printAsJson(resp)
 		}
 	}
 
@@ -118,26 +114,34 @@ func main() {
 		}
 	}
 
-	if create {
-		if resp, err := lb.CreateInstance(config); err != nil {
-			panic(err)
+	if create != "" {
+		if cfg, err1 := client.LoadConfig(create); err1 != nil {
+			panic(err1)
 		} else {
-			printAsYaml(resp)
+			if resp, err2 := lb.CreateInstance(cfg); err2 != nil {
+				panic(err2)
+			} else {
+				printAsJson(resp)
+			}
 		}
 	}
 
 	if modify != "" {
-		if resp, err := lb.ModifyInstance(modify, config); err != nil {
-			panic(err)
+		if cfg, err1 := client.LoadConfig(modify); err1 != nil {
+			panic(err1)
 		} else {
-			printAsYaml(resp)
+			if resp, err2 := lb.ModifyInstance(cfg); err2 != nil {
+				panic(err2)
+			} else {
+				printAsJson(resp)
+			}
 		}
 	}
 
 }
 
-func printAsYaml(obj interface{}) {
-	if raw, err := yaml.Marshal(obj); err != nil {
+func printAsJson(obj interface{}) {
+	if raw, err := json.MarshalIndent(obj, "", "    "); err != nil {
 		fmt.Println(err.Error())
 	} else {
 		fmt.Println(string(raw))

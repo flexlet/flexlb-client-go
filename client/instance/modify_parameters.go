@@ -67,12 +67,6 @@ type ModifyParams struct {
 	*/
 	Config *models.InstanceConfig
 
-	/* Name.
-
-	   Instance name
-	*/
-	Name string
-
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
@@ -137,17 +131,6 @@ func (o *ModifyParams) SetConfig(config *models.InstanceConfig) {
 	o.Config = config
 }
 
-// WithName adds the name to the modify params
-func (o *ModifyParams) WithName(name string) *ModifyParams {
-	o.SetName(name)
-	return o
-}
-
-// SetName adds the name to the modify params
-func (o *ModifyParams) SetName(name string) {
-	o.Name = name
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *ModifyParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -159,11 +142,6 @@ func (o *ModifyParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Regist
 		if err := r.SetBodyParam(o.Config); err != nil {
 			return err
 		}
-	}
-
-	// path param name
-	if err := r.SetPathParam("name", o.Name); err != nil {
-		return err
 	}
 
 	if len(res) > 0 {

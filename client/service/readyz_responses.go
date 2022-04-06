@@ -44,22 +44,20 @@ func NewReadyzOK() *ReadyzOK {
 Ready status
 */
 type ReadyzOK struct {
-	Payload *models.ReadyStatus
+	Payload models.ReadyStatus
 }
 
 func (o *ReadyzOK) Error() string {
 	return fmt.Sprintf("[GET /readyz][%d] readyzOK  %+v", 200, o.Payload)
 }
-func (o *ReadyzOK) GetPayload() *models.ReadyStatus {
+func (o *ReadyzOK) GetPayload() models.ReadyStatus {
 	return o.Payload
 }
 
 func (o *ReadyzOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.ReadyStatus)
-
 	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 
