@@ -1,22 +1,12 @@
-// Copyright (c) 2022 Yaohui Wang (yaohuiwang@outlook.com)
-// FlexLB is licensed under Mulan PubL v2.
-// You can use this software according to the terms and conditions of the Mulan PubL v2.
-// You may obtain a copy of Mulan PubL v2 at:
-//         http://license.coscl.org.cn/MulanPubL-2.0
-// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
-// EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
-// MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
-// See the Mulan PubL v2 for more details.
-
 package client
 
 import (
 	"encoding/json"
 	"io/ioutil"
 
-	"gitee.com/flexlb/flexlb-client-go/client/instance"
-	"gitee.com/flexlb/flexlb-client-go/client/service"
-	"gitee.com/flexlb/flexlb-client-go/models"
+	"github.com/flexlet/flexlb-client-go/client/instance"
+	"github.com/flexlet/flexlb-client-go/client/service"
+	"github.com/flexlet/flexlb-client-go/models"
 
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"

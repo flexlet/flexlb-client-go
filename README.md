@@ -7,7 +7,7 @@ Flexible load balancer go client to control keepalived and haproxy
 ### Clone code
 
 ```sh
-git clone https://gitee.com/flexlb/flexlb-client-go.git
+git clone https://github.com/flexlet/flexlb-client-go.git
 ```
 
 ### Build binary
@@ -15,7 +15,7 @@ git clone https://gitee.com/flexlb/flexlb-client-go.git
 #### For Linux
 ```sh
 cd flexlb-client-go
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /tmp/flexlb-cli cmd/flexlb-client/main.go
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/flexlb-cli cmd/flexlb-client/main.go
 ```
 
 ## Run
@@ -24,19 +24,19 @@ CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /tmp/flexlb-cli cmd/flexlb-cli
 
 #### Generate CA key and CA certs
 
-See {FLEXLB_API}/README.md
+See {FLEXLB}/README.md
 
 #### Generate server key and certs
 
-See {FLEXLB_API}/README.md
+See {FLEXLB}/README.md
 
 #### Generate client key and certs
 
-See {FLEXLB_API}/README.md
+See {FLEXLB}/README.md
 
 ### Run FlexLB API server
 
-See {FLEXLB_API}/README.md
+See {FLEXLB}/README.md
 
 ### Run FlexLB Client
 
