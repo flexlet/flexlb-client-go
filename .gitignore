@@ -1,2 +1,4 @@
 build/target/*
 !build/target/.gitkeep
+release/etc/certs/*
+!release/etc/certs/.gitkeep
